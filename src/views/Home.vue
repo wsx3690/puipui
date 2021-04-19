@@ -1,22 +1,22 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <Joystick/>
-
+    <!-- <img alt="Vue logo" src="../assets/logo.png" />
+    <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+    <grid />
+    <joyStick />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-import Joystick from "@/components/Joystick.vue";
+import grid from "@/components/grid.vue";
+import joyStick from "@/components/joyStick.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
-    Joystick,
+    grid,
+    joyStick,
   },
 };
 </script>
