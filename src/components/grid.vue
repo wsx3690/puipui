@@ -8,7 +8,7 @@
       </tr>
       <tr>
         <td>正常/翻車/撞牆</td>
-        <td class="temperature_sensor">{{ sensorDetail.temporature }} °C</td>
+        <td class="temperature_sensor">{{ sensorDetail.temperature }} °C</td>
         <td>{{ sensorDetail.humidity }}</td>
       </tr>
     </table>
@@ -30,10 +30,16 @@ export default {
     return {
       client: null,
       sensorDetail: {
-        temporature: null,
+        temperature: null,
         humidity: null,
       },
+      connected: null,
     };
+  },
+  watch: {
+    'sensorDetail.humidity'() {
+      // console.log('sensorDetail', this.sensorDetail);
+    },
   },
   //Lifecycle of vue
   mounted() {
@@ -51,11 +57,14 @@ export default {
     //傳送隨機資料給broker
     fakePublic() {
       const fakeResult = {
-        temporature: 20 + Math.random() * 5,
+        temperature: 20 + Math.random() * 5,
         humidity: 40 + 10 * Math.random(),
+        timeStamp: new Date() * 1,
       };
+      // console.log(fakeResult);
       const strFake = this.stringify(fakeResult);
       //透過用戶端傳送隨機產生的資料
+      // console.log('strFake', strFake);
       this.client.publish(this.topic, strFake); // published message must be a string
     },
     //接收broker傳送的資料
@@ -63,13 +72,19 @@ export default {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
       // console.log(message.toString()); //print the direction on console
-      this.sensorDetail = this.parse(message.toString());
+      const recieved = this.parse(message.toString());
+      if (recieved.timeStamp > this.connected) {
+        this.sensorDetail = recieved;
+      } else {
+        console.log('過期資料', recieved);
+      }
     },
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
       this.client.subscribe(this.topic, err => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
         console.log(err);
+        this.connected = new Date() * 1;
       });
     },
     //將obj物件轉為json格式的字串
