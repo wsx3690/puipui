@@ -59,6 +59,7 @@ export default {
       const fakeResult = {
         temperature: 20 + Math.random() * 5,
         humidity: 40 + 10 * Math.random(),
+        // 產生資料時紀錄時間
         timeStamp: new Date() * 1,
       };
       // console.log(fakeResult);
@@ -84,6 +85,7 @@ export default {
       this.client.subscribe(this.topic, err => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
         console.log(err);
+        // 連線成功之後紀錄時間
         this.connected = new Date() * 1;
       });
     },
