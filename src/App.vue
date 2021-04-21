@@ -27,4 +27,11 @@
     }
   }
 }
+.wrapper {
+  width: 1200px;
+  margin: 0 auto;
+  @media screen and(max-width:800px) {
+    width: 90%;
+  }
+}
 </style>
