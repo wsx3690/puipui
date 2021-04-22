@@ -3,13 +3,13 @@
     <table>
       <tr>
         <th>車子狀況</th>
-        <th>溫度</th>
+        <!-- <th>溫度</th> -->
         <th>濕度</th>
       </tr>
       <tr>
         <td>正常/翻車/撞牆</td>
-        <td class="temperature_sensor">{{ sensorDetail.temperature }} °C</td>
-        <td>{{ sensorDetail.humidity }}</td>
+        <!-- <td >{{ sensorDetail.temperature }} °C</td> -->
+        <td >{{ sensorDetail.humidity }}</td>
       </tr>
     </table>
   </div>
@@ -19,7 +19,7 @@
 import mqtt from 'mqtt';
 
 export default {
-  name: 'temperature_sensor',
+  name: 'sensor',
   props: {
     topic: {
       type: String,
@@ -30,7 +30,7 @@ export default {
     return {
       client: null,
       sensorDetail: {
-        temperature: null,
+        //temperature: null,
         humidity: null,
       },
       connected: null,
@@ -44,14 +44,14 @@ export default {
   //Lifecycle of vue
   mounted() {
     // 設定 client 物件為 mqtt 用戶端
-    this.client = mqtt.connect('mqtt://test.mosquitto.org:8080'); //tells the client which broker to connect to.
+    this.client = mqtt.connect('mqtt://192.168.1.101:9001',{clear:true}); //tells the client which broker to connect to.
     //綁定連線成功的事件處理到用戶端
     this.client.on('connect', this.onConnected);
     //綁定接收到訊息的事件處理到用戶端
     this.client.on('message', this.onMessaged);
 
     //5秒傳送一次隨機產生的資料給broker
-    setInterval(this.fakePublic, 5000); // every 5 seconds
+    // setInterval(this.fakePublic, 5000); // every 5 seconds
   },
   methods: {
     //傳送隨機資料給broker
@@ -73,12 +73,15 @@ export default {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
       // console.log(message.toString()); //print the direction on console
+      this.sensorDetail.humidity = message.toString();
+      /*
       const recieved = this.parse(message.toString());
       if (recieved.timeStamp > this.connected) {
         this.sensorDetail = recieved;
       } else {
         console.log('過期資料', recieved);
       }
+      */
     },
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
