@@ -8,18 +8,23 @@
       </tr>
       <tr>
         <td>正常/翻車/撞牆</td>
-        <td class="temperature_sensor">{{ sensorDetail.temporature }} °C</td>
+        <!-- <td>{{ sensorDetail.temperature }} °C</td> -->
         <td>{{ sensorDetail.humidity }}</td>
       </tr>
     </table>
   </div>
+  <br>
+  <img src="http://172.20.10.2:81/stream">
+  <button onclick="capture()">拍照</button>
+  <br>
+  <br>
 </template>
 
 <script>
 import mqtt from 'mqtt';
 
 export default {
-  name: 'temperature_sensor',
+  name: 'sensor',
   props: {
     topic: {
       type: String,
@@ -30,10 +35,19 @@ export default {
     return {
       client: null,
       sensorDetail: {
-        temporature: null,
+        temperature: null,
         humidity: null,
       },
     };
+  },
+  capture() {
+    var img = document.createElement('img');
+    // var ims = document.querySelectorAll('img');
+    // var cap = ims[1];
+    var url = "http://172.20.10.2/capture";
+
+    img.src = `${url}?${new Date() * 1}`;
+    document.querySelectorAll('body')[0].appendChild(img);
   },
   //Lifecycle of vue
   mounted() {
@@ -45,13 +59,13 @@ export default {
     this.client.on('message', this.onMessaged);
 
     //5秒傳送一次隨機產生的資料給broker
-    setInterval(this.fakePublic, 5000); // every 5 seconds
+    //setInterval(this.fakePublic, 1000); // every 1 seconds
   },
   methods: {
     //傳送隨機資料給broker
     fakePublic() {
       const fakeResult = {
-        temporature: 20 + Math.random() * 5,
+        temperature: 20 + Math.random() * 5,
         humidity: 40 + 10 * Math.random(),
       };
       const strFake = this.stringify(fakeResult);
@@ -67,11 +81,18 @@ export default {
     },
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
-      this.client.subscribe(this.topic, err => {
+      this.client.subscribe(this.topic,( err,res)=> {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
-        console.log(err);
+        console.log('Error:',err);
+        console.log('Topic:',this.topic);
+        this.subscribeSuccess = true;
+        //顯示土壤濕度感測器數值 
+        console.log('Subscribe to topics res', res);
+        // 連線成功之後紀錄時間
+        this.connected = new Date() * 1;
       });
     },
+
     //將obj物件轉為json格式的字串
     stringify(obj) {
       return JSON.stringify(obj);
