@@ -54,8 +54,8 @@ export default {
   watch: {
     'sensorDetail.humidity'() {
       // console.log('sensorDetail', this.sensorDetail);
-    },
-    
+    }},
+
   //Lifecycle of vue
   mounted() {
     // 設定 client 物件為 mqtt 用戶端
