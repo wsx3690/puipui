@@ -13,11 +13,14 @@
       </tr>
     </table>
   </div>
-  <br>
-  <img src="http://172.20.10.2:81/stream">
-  <button onclick="capture()">拍照</button>
-  <br>
-  <br>
+  <br />
+  <img src="http://172.20.10.2:81/stream" />
+  <button @click="capture()">拍照</button>
+  <div v-for="(url, i) in captureImages" :key="i">
+    <img :src="url" />
+  </div>
+  <br />
+  <br />
 </template>
 
 <script>
@@ -29,6 +32,7 @@ export default {
     topic: {
       type: String,
       default: () => 'sensor',
+      captureImages: [],
     },
   },
   data() {
@@ -42,24 +46,25 @@ export default {
     };
   },
   capture() {
-    var img = document.createElement('img');
+    // var img = document.createElement('img');
     // var ims = document.querySelectorAll('img');
     // var cap = ims[1];
-    var url = "http://172.20.10.2/capture";
+    var url = 'http://172.20.10.2/capture';
+    captureImages.push(url);
 
-    img.src = `${url}?${new Date() * 1}`;
-    document.querySelectorAll('body')[0].appendChild(img);
+    // img.src = `${url}?${new Date() * 1}`;
+    // document.querySelectorAll('body')[0].appendChild(img);
   },
 
   watch: {
     'sensorDetail.humidity'() {
       // console.log('sensorDetail', this.sensorDetail);
     },
-    
+  },
   //Lifecycle of vue
   mounted() {
     // 設定 client 物件為 mqtt 用戶端
-    this.client = mqtt.connect('mqtt://192.168.1.101:9001',{clear:true}); //tells the client which broker to connect to.
+    this.client = mqtt.connect('mqtt://192.168.1.101:9001', { clear: true }); //tells the client which broker to connect to.
     //綁定連線成功的事件處理到用戶端
     this.client.on('connect', this.onConnected);
     //綁定接收到訊息的事件處理到用戶端
@@ -100,12 +105,12 @@ export default {
     },
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
-      this.client.subscribe(this.topic,( err,res)=> {
+      this.client.subscribe(this.topic, (err, res) => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
-        console.log('Error:',err);
-        console.log('Topic:',this.topic);
+        console.log('Error:', err);
+        console.log('Topic:', this.topic);
         this.subscribeSuccess = true;
-        //顯示土壤濕度感測器數值 
+        //顯示土壤濕度感測器數值
         console.log('Subscribe to topics res', res);
         // 連線成功之後紀錄時間
         this.connected = new Date() * 1;
