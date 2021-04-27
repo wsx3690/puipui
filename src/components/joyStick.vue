@@ -73,9 +73,9 @@ export default {
 </script>
 <style scoped lang="scss">
 .joystick {
-  width: 100%;
+  width: 120px;
   position: relative;
-  padding-top: 25%;
+  height: 120px;
   margin-top: 10px;
   box-shadow: 0 0 0 2px blue inset;
 }

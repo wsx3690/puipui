@@ -3,7 +3,7 @@
     <table>
       <tr>
         <th>車子狀況</th>
-        <th>溫度</th>
+        <!-- <th>溫度</th> -->
         <th>濕度</th>
       </tr>
       <tr>
@@ -35,9 +35,10 @@ export default {
     return {
       client: null,
       sensorDetail: {
-        temperature: null,
+        //temperature: null,
         humidity: null,
       },
+      connected: null,
     };
   },
   capture() {
@@ -49,10 +50,16 @@ export default {
     img.src = `${url}?${new Date() * 1}`;
     document.querySelectorAll('body')[0].appendChild(img);
   },
+
+  watch: {
+    'sensorDetail.humidity'() {
+      // console.log('sensorDetail', this.sensorDetail);
+    },
+    
   //Lifecycle of vue
   mounted() {
     // 設定 client 物件為 mqtt 用戶端
-    this.client = mqtt.connect('mqtt://test.mosquitto.org:8080'); //tells the client which broker to connect to.
+    this.client = mqtt.connect('mqtt://192.168.1.101:9001',{clear:true}); //tells the client which broker to connect to.
     //綁定連線成功的事件處理到用戶端
     this.client.on('connect', this.onConnected);
     //綁定接收到訊息的事件處理到用戶端
@@ -67,9 +74,13 @@ export default {
       const fakeResult = {
         temperature: 20 + Math.random() * 5,
         humidity: 40 + 10 * Math.random(),
+        // 產生資料時紀錄時間
+        timeStamp: new Date() * 1,
       };
+      // console.log(fakeResult);
       const strFake = this.stringify(fakeResult);
       //透過用戶端傳送隨機產生的資料
+      // console.log('strFake', strFake);
       this.client.publish(this.topic, strFake); // published message must be a string
     },
     //接收broker傳送的資料
@@ -77,7 +88,15 @@ export default {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
       // console.log(message.toString()); //print the direction on console
-      this.sensorDetail = this.parse(message.toString());
+      this.sensorDetail.humidity = message.toString();
+      /*
+      const recieved = this.parse(message.toString());
+      if (recieved.timeStamp > this.connected) {
+        this.sensorDetail = recieved;
+      } else {
+        console.log('過期資料', recieved);
+      }
+      */
     },
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
