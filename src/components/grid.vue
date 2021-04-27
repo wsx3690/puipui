@@ -45,16 +45,6 @@ export default {
       connected: null,
     };
   },
-  capture() {
-    // var img = document.createElement('img');
-    // var ims = document.querySelectorAll('img');
-    // var cap = ims[1];
-    var url = 'http://172.20.10.2/capture';
-    captureImages.push(url);
-
-    // img.src = `${url}?${new Date() * 1}`;
-    // document.querySelectorAll('body')[0].appendChild(img);
-  },
 
   watch: {
     'sensorDetail.humidity'() {
@@ -74,6 +64,17 @@ export default {
     //setInterval(this.fakePublic, 1000); // every 1 seconds
   },
   methods: {
+    //截圖
+    capture() {
+      // var img = document.createElement('img');
+      // var ims = document.querySelectorAll('img');
+      // var cap = ims[1];
+      var url = 'http://172.20.10.2/capture';
+      captureImages.push(url);
+
+      // img.src = `${url}?${new Date() * 1}`;
+      // document.querySelectorAll('body')[0].appendChild(img);
+    },
     //傳送隨機資料給broker
     fakePublic() {
       const fakeResult = {
