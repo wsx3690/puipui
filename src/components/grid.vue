@@ -70,7 +70,7 @@ export default {
       // var ims = document.querySelectorAll('img');
       // var cap = ims[1];
       var url = 'http://172.20.10.2/capture';
-      captureImages.push(url);
+      this.captureImages.push(url);
 
       // img.src = `${url}?${new Date() * 1}`;
       // document.querySelectorAll('body')[0].appendChild(img);
