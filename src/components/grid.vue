@@ -39,7 +39,7 @@ export default {
       client: null,
       sensorDetail: {
         //temperature: null,
-        humidity: null,
+        humidity: ' ',
       },
       connected: null,
       captureImages: [],
@@ -76,19 +76,19 @@ export default {
       // document.querySelectorAll('body')[0].appendChild(img);
     },
     //傳送隨機資料給broker
-    fakePublic() {
-      const fakeResult = {
-        temperature: 20 + Math.random() * 5,
-        humidity: 40 + 10 * Math.random(),
-        // 產生資料時紀錄時間
-        timeStamp: new Date() * 1,
-      };
-      // console.log(fakeResult);
-      const strFake = this.stringify(fakeResult);
-      //透過用戶端傳送隨機產生的資料
-      // console.log('strFake', strFake);
-      this.client.publish(this.topic, strFake); // published message must be a string
-    },
+    // fakePublic() {
+    //   const fakeResult = {
+    //     temperature: 20 + Math.random() * 5,
+    //     humidity: 40 + 10 * Math.random(),
+    //     // 產生資料時紀錄時間
+    //     timeStamp: new Date() * 1,
+    //   };
+    //   // console.log(fakeResult);
+    //   const strFake = this.stringify(fakeResult);
+    //   //透過用戶端傳送隨機產生的資料
+    //   // console.log('strFake', strFake);
+    //   this.client.publish(this.topic, strFake); // published message must be a string
+    // },
     //接收broker傳送的資料
     onMessaged(t, message) {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
