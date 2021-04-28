@@ -32,7 +32,6 @@ export default {
     topic: {
       type: String,
       default: () => 'sensor',
-      captureImages: [],
     },
   },
   data() {
@@ -43,6 +42,7 @@ export default {
         humidity: null,
       },
       connected: null,
+      captureImages: [],
     };
   },
 
