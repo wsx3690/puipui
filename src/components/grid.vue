@@ -3,12 +3,12 @@
     <table>
       <tr>
         <th>車子狀況</th>
-        <!-- <th>溫度</th> -->
+        <th>光敏</th>
         <th>濕度</th>
       </tr>
       <tr>
         <td>正常/翻車/撞牆</td>
-        <!-- <td>{{ sensorDetail.temperature }} °C</td> -->
+        <td>{{ sensorDetail.light }}</td>
         <td>{{ sensorDetail.humidity }}</td>
       </tr>
     </table>
@@ -29,26 +29,33 @@ import mqtt from 'mqtt';
 export default {
   name: 'sensor',
   props: {
-    topic: {
+    topicHumidity: {
       type: String,
-      default: () => 'sensor',
-      captureImages: [],
+      default: () => 'sensor_humidity',
+    },
+    topicLight: {
+      type: String,
+      default: () => 'sensor_Light',
     },
   },
+
   data() {
     return {
       client: null,
       sensorDetail: {
-        //temperature: null,
+        light: null,
         humidity: ' ',
       },
       connected: null,
+      captureImages: [],
     };
   },
 
   watch: {
     'sensorDetail.humidity'() {
       // console.log('sensorDetail', this.sensorDetail);
+    },
+    'sensorDetail.light'() {
     },
   },
   //Lifecycle of vue
@@ -95,6 +102,7 @@ export default {
       // message is Buffer
       // console.log(message.toString()); //print the direction on console
       this.sensorDetail.humidity = message.toString();
+      this.sensorDetail.light = message.toString();
       /*
       const recieved = this.parse(message.toString());
       if (recieved.timeStamp > this.connected) {
@@ -106,10 +114,21 @@ export default {
     },
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
-      this.client.subscribe(this.topic, (err, res) => {
+      this.client.subscribe(this.topicHumidity, (err, res) => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
         console.log('Error:', err);
-        console.log('Topic:', this.topic);
+        console.log('Topic:', this.topicHumidity);
+        this.subscribeSuccess = true;
+        //顯示土壤濕度感測器數值
+        console.log('Subscribe to topics res', res);
+        // 連線成功之後紀錄時間
+        this.connected = new Date() * 1;
+      });
+
+       this.client.subscribe(this.topicLight, (err, res) => {
+        //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
+        console.log('Error:', err);
+        console.log('Topic:', this.topicLight);
         this.subscribeSuccess = true;
         //顯示土壤濕度感測器數值
         console.log('Subscribe to topics res', res);
