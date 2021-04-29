@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <div class="joystick"></div>
-    <!-- <img src="172.20.10.2:81/stream" /> -->
   </div>
 </template>
 
@@ -73,10 +72,14 @@ export default {
 </script>
 <style scoped lang="scss">
 .joystick {
-  width: 1200px;
+  width: 100%;
   position: relative;
-  height: 500px;
+  height: 100%;
   margin-top: 10px;
-  box-shadow: 0 0 0 2px black inset;
+  // box-shadow: 0 0 0 2px black inset;
+}
+.wrapper {
+  position: relative;
+  height: 45vh;
 }
 </style>

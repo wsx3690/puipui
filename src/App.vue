@@ -1,8 +1,8 @@
 <template>
-  <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-  </div>
+  </div> -->
   <router-view />
 </template>
 
@@ -31,7 +31,7 @@
   width: 1200px;
   margin: 0 auto;
   @media screen and(max-width:800px) {
-    width: 90%;
+    width: 96%;
   }
 }
 </style>
