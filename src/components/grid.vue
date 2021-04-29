@@ -1,4 +1,27 @@
-<template>
+ <template>
+
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="situation"
+        label="車子狀況"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="light"
+        label="光敏"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="humidity"
+        label="濕度">
+      </el-table-column>
+    </el-table>
+
+  </template>
+
+<!-- <template>
   <div class="wrapper">
     <table>
       <tr>
@@ -21,7 +44,7 @@
   </div>
   <br />
   <br />
-</template>
+</template> -->
 
 <script>
 import mqtt from 'mqtt';
@@ -41,7 +64,12 @@ export default {
 
   data() {
     return {
-      client: null,
+      tableData: [{
+            situation: ' ',
+            light: {{ sensorDetail.light }},
+            humidity: {{ sensorDetail.humidity }}
+          }]
+      client: null, 
       sensorDetail: {
         light: null,
         humidity: ' ',
