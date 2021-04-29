@@ -1,9 +1,23 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="situation" label="車子狀況" width="180"> </el-table-column>
-    <el-table-column prop="light" label="光敏" width="180"> </el-table-column>
-    <el-table-column prop="humidity" label="濕度"> </el-table-column>
-  </el-table>
+  <div>
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="situation" label="車子狀況" width="180"> </el-table-column>
+      <el-table-column prop="light" label="光敏" width="180"> </el-table-column>
+      <el-table-column prop="humidity" label="濕度"> </el-table-column>
+    </el-table>
+    <DataTable :value="tableData" responsiveLayout="scroll">
+      <template #header>
+        <div class="table-header">
+          Products
+          <Button icon="pi pi-refresh" />
+        </div>
+      </template>
+      <Column field="situation" header="車子狀況"></Column>
+      <Column field="light" header="光敏"></Column>
+      <Column field="humidity" header="濕度"></Column>
+      <template #footer> In total there are {{ products ? products.length : 0 }} products. </template>
+    </DataTable>
+  </div>
 </template>
 
 <!-- <template>
@@ -36,6 +50,7 @@ import mqtt from 'mqtt';
 
 export default {
   name: 'sensor',
+  components: {},
   props: {
     topicHumidity: {
       type: String,
