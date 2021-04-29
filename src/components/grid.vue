@@ -1,35 +1,36 @@
-<template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="situation" label="車子狀況" width="180"> </el-table-column>
-    <el-table-column prop="light" label="光敏" width="180"> </el-table-column>
-    <el-table-column prop="humidity" label="濕度"> </el-table-column>
-  </el-table>
-</template>
+ <!--<template>
+   <el-table :data="tableData" style="width: 100%">
+     <el-table-column prop="situation" label="車子狀況" width="180"> </el-table-column>
+     <el-table-column prop="light" label="光敏" width="180"> </el-table-column>
+     <el-table-column prop="humidity" label="濕度"> </el-table-column>
+   </el-table>
+ </template>
+ -->
 
-<!-- <template>
-  <div class="wrapper">
-    <table>
-      <tr>
-        <th>車子狀況</th>
-        <th>光敏</th>
-        <th>濕度</th>
-      </tr>
-      <tr>
-        <td>正常/翻車/撞牆</td>
-        <td>{{ sensorDetail.light }}</td>
-        <td>{{ sensorDetail.humidity }}</td>
-      </tr>
-    </table>
-  </div>
-  <br />
-  <img src="http://172.20.10.2:81/stream" />
-  <button @click="capture()">拍照</button>
-  <div v-for="(url, i) in captureImages" :key="i">
-    <img :src="url" />
-  </div>
-  <br />
-  <br />
-</template> -->
+ <template>
+   <div class="wrapper">
+     <table>
+       <tr>
+         <th>車子狀況</th>
+         <th>光敏</th>
+         <th>濕度</th>
+       </tr>
+       <tr>
+         <td>正常/翻車/撞牆</td>
+         <td>{{ sensorDetail.light }}</td>
+         <td>{{ sensorDetail.humidity }}</td>
+       </tr>
+     </table>
+   </div>
+   <br />
+   <img src="http://172.20.10.2:81/stream" />
+   <button @click="capture()">拍照</button>
+   <div v-for="(url, i) in captureImages" :key="i">
+     <img :src="url" />
+   </div>
+   <br />
+   <br />
+</template>
 
 <script>
 import mqtt from 'mqtt';
@@ -59,17 +60,17 @@ export default {
       error: '',
     };
   },
-  computed: {
-    tableData() {
-      return [
-        {
-          situation: ' ',
-          light: this.sensorDetail.light,
-          humidity: this.sensorDetail.humidity,
-        },
-      ];
-    },
-  },
+  //  computed: {
+  //    tableData() {
+  //      return [
+  //        {
+  //          situation: ' ',
+  //          light: this.sensorDetail.light,
+  //          humidity: this.sensorDetail.humidity,
+  //        },
+  //      ];
+  //    },
+  //  }, 
 
   watch: {
     'sensorDetail.humidity'() {
@@ -127,8 +128,14 @@ export default {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
       // console.log(message.toString()); //print the direction on console
-      this.sensorDetail.humidity = message.toString();
-      this.sensorDetail.light = message.toString();
+      if(t == this.topicHumidity){
+        this.sensorDetail.humidity = message.toString();
+      }
+      
+      if(t == this.topicLight){
+        this.sensorDetail.light = message.toString();
+      }
+      
       /*
       const recieved = this.parse(message.toString());
       if (recieved.timeStamp > this.connected) {
