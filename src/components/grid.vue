@@ -48,6 +48,7 @@ export default {
       },
       connected: null,
       captureImages: [],
+      error:'',
     };
   },
 
@@ -61,7 +62,14 @@ export default {
   //Lifecycle of vue
   mounted() {
     // 設定 client 物件為 mqtt 用戶端
-    this.client = mqtt.connect('mqtt://192.168.1.101:9001', { clear: true }); //tells the client which broker to connect to.
+    //tells the client which broker to connect to.
+    //使用try...catch,忽略web socket傳出的錯誤
+    try{
+    this.client = mqtt.connect('mqtt://192.168.1.101:9001', { clear: true }); 
+    }catch(e){
+    this.error = e;
+    }
+     
     //綁定連線成功的事件處理到用戶端
     this.client.on('connect', this.onConnected);
     //綁定接收到訊息的事件處理到用戶端
