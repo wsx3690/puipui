@@ -1,23 +1,26 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="situation" label="車子狀況" width="180"> </el-table-column>
-      <el-table-column prop="light" label="光敏" width="180"> </el-table-column>
-      <el-table-column prop="humidity" label="濕度"> </el-table-column>
-    </el-table>
     <DataTable :value="tableData" responsiveLayout="scroll">
-      <template #header>
+      <!-- <template #header>
         <div class="table-header">
           Products
           <Button icon="pi pi-refresh" />
         </div>
-      </template>
+      </template> -->
       <Column field="situation" header="車子狀況"></Column>
       <Column field="light" header="光敏"></Column>
       <Column field="humidity" header="濕度"></Column>
-      <template #footer> In total there are {{ products ? products.length : 0 }} products. </template>
+      <!-- <template #footer> In total there are {{ products ? products.length : 0 }} products. </template> -->
     </DataTable>
   </div>
+  <br />
+  <img src="http://172.20.10.2:81/stream" />
+  <button @click="capture()">拍照</button>
+  <div v-for="(url, i) in captureImages" :key="i">
+    <img :src="url" />
+  </div>
+  <br />
+  <br />
 </template>
 
 <!-- <template>
@@ -198,24 +201,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-table {
-  width: 100%;
-  font-size: 30px;
-  margin: auto;
-  border-collapse: collapse;
-  text-align: center;
-}
+// table {
+//   width: 100%;
+//   font-size: 30px;
+//   margin: auto;
+//   border-collapse: collapse;
+//   text-align: center;
+// }
 
-tr:nth-child(odd) {
-  color: brown;
-  /* background-color: orange; */
-}
-tr:nth-child(even) {
-  color: green;
-  /* background-color: pink; */
-}
-th,
-td {
-  border: 2px solid blue;
-}
+// tr:nth-child(odd) {
+//   color: brown;
+//   /* background-color: orange; */
+// }
+// tr:nth-child(even) {
+//   color: green;
+//   /* background-color: pink; */
+// }
+// th,
+// td {
+//   border: 2px solid blue;
+// }
 </style>

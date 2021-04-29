@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="joystick"></div>
-    <img src="172.20.10.2:81/stream" />
+    <!-- <img src="172.20.10.2:81/stream" /> -->
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     const staticGamepad = nipplejs.create({
       //set joystick on web
       zone: document.querySelector('.joystick'),
-      //mode: 'static',
+      // mode: 'static',
       mode: 'dynamic',
       position: { left: '50%', top: '50%' },
       color: 'red',
@@ -73,10 +73,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .joystick {
-  width: 120px;
+  width: 1200px;
   position: relative;
-  height: 120px;
+  height: 500px;
   margin-top: 10px;
-  box-shadow: 0 0 0 2px blue inset;
+  box-shadow: 0 0 0 2px black inset;
 }
 </style>
