@@ -20,30 +20,30 @@
   </div>
 </template>
 
- <template>
-   <div class="wrapper">
-     <table>
-       <tr>
-         <th>車子狀況</th>
-         <th>光敏</th>
-         <th>濕度</th>
-       </tr>
-       <tr>
-         <td>正常/翻車/撞牆</td>
-         <td>{{ sensorDetail.light }}</td>
-         <td>{{ sensorDetail.humidity }}</td>
-       </tr>
-     </table>
-   </div>
-   <br />
-   <img src="http://172.20.10.2:81/stream" />
-   <button @click="capture()">拍照</button>
-   <div v-for="(url, i) in captureImages" :key="i">
-     <img :src="url" />
-   </div>
-   <br />
-   <br />
-</template>
+<!-- <template>
+  <div class="wrapper">
+    <table>
+      <tr>
+        <th>車子狀況</th>
+        <th>光敏</th>
+        <th>濕度</th>
+      </tr>
+      <tr>
+        <td>正常/翻車/撞牆</td>
+        <td>{{ sensorDetail.light }}</td>
+        <td>{{ sensorDetail.humidity }}</td>
+      </tr>
+    </table>
+  </div>
+  <br />
+  <img src="http://172.20.10.2:81/stream" />
+  <button @click="capture()">拍照</button>
+  <div v-for="(url, i) in captureImages" :key="i">
+    <img :src="url" />
+  </div>
+  <br />
+  <br />
+</template> -->
 
 <script>
 import mqtt from 'mqtt';
