@@ -1,25 +1,10 @@
- <template>
-
-    <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="situation"
-        label="車子狀況"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="light"
-        label="光敏"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="humidity"
-        label="濕度">
-      </el-table-column>
-    </el-table>
-
-  </template>
+<template>
+  <el-table :data="tableData" style="width: 100%">
+    <el-table-column prop="situation" label="車子狀況" width="180"> </el-table-column>
+    <el-table-column prop="light" label="光敏" width="180"> </el-table-column>
+    <el-table-column prop="humidity" label="濕度"> </el-table-column>
+  </el-table>
+</template>
 
 <!-- <template>
   <div class="wrapper">
@@ -64,40 +49,45 @@ export default {
 
   data() {
     return {
-      tableData: [{
-            situation: ' ',
-            light: {{ sensorDetail.light }},
-            humidity: {{ sensorDetail.humidity }}
-          }]
-      client: null, 
+      client: null,
       sensorDetail: {
         light: null,
         humidity: ' ',
       },
       connected: null,
       captureImages: [],
-      error:'',
+      error: '',
     };
+  },
+  computed: {
+    tableData() {
+      return [
+        {
+          situation: ' ',
+          light: this.sensorDetail.light,
+          humidity: this.sensorDetail.humidity,
+        },
+      ];
+    },
   },
 
   watch: {
     'sensorDetail.humidity'() {
       // console.log('sensorDetail', this.sensorDetail);
     },
-    'sensorDetail.light'() {
-    },
+    'sensorDetail.light'() {},
   },
   //Lifecycle of vue
   mounted() {
     // 設定 client 物件為 mqtt 用戶端
     //tells the client which broker to connect to.
     //使用try...catch,忽略web socket傳出的錯誤
-    try{
-    this.client = mqtt.connect('mqtt://192.168.1.101:9001', { clear: true }); 
-    }catch(e){
-    this.error = e;
+    try {
+      this.client = mqtt.connect('mqtt://192.168.1.101:9001', { clear: true });
+    } catch (e) {
+      this.error = e;
     }
-     
+
     //綁定連線成功的事件處理到用戶端
     this.client.on('connect', this.onConnected);
     //綁定接收到訊息的事件處理到用戶端
@@ -161,7 +151,7 @@ export default {
         this.connected = new Date() * 1;
       });
 
-       this.client.subscribe(this.topicLight, (err, res) => {
+      this.client.subscribe(this.topicLight, (err, res) => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
         console.log('Error:', err);
         console.log('Topic:', this.topicLight);

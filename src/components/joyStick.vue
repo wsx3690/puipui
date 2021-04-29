@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="joystick"></div>
-    <img src="172.20.10.2:81/stream">
+    <img src="172.20.10.2:81/stream" />
   </div>
 </template>
 
