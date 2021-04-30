@@ -35,6 +35,10 @@ export default {
   name: 'sensor',
   components: {},
   props: {
+    topicUltrasound: {
+      type: String,
+      default: () => 'ultrasound',
+    },
     topicHumidity: {
       type: String,
       default: () => 'sensor_humidity',
@@ -44,7 +48,7 @@ export default {
       default: () => 'sensor_Light',
     },
   },
-  //data內為定義變數的區塊
+  //data內為定義變數的地方(但定義之變數僅限用於grid.vue檔內)
   data() {
     return {
       client: null,
@@ -102,7 +106,10 @@ export default {
     onMessaged(t, message) {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
-      // console.log(message.toString()); //print the direction on console
+      if (t == this.topicUltrasound) {
+      this.sensorDetail.situation = message.toString();
+      }
+
       if (t == this.topicHumidity) {
         var j, h;
         j = message.toString();
@@ -142,6 +149,15 @@ export default {
 
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
+      this.client.subscribe(this.topicUltrasound, (err, res) => {
+        //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
+        console.log('Error:', err);
+        console.log('Topic:', this.topicUltrasound);
+        this.subscribeSuccess = true;
+        //顯示超音波感測器數值
+        console.log('Subscribe to topics res', res);
+      }); 
+
       this.client.subscribe(this.topicHumidity, (err, res) => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
         console.log('Error:', err);
@@ -172,6 +188,7 @@ export default {
 }
 .dashboard {
   height: 30%;
+  width: 100%;
 }
 .screenshot {
   height: 40%;
