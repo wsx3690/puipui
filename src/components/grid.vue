@@ -75,7 +75,8 @@ export default {
     //tells the client which broker to connect to.
     //使用try...catch,忽略web socket傳出的錯誤
     try {
-      this.client = mqtt.connect('mqtt://192.168.1.101:8080', { clear: true });
+      // this.client = mqtt.connect('mqtt://192.168.1.101:8080', { clear: true });
+      this.client = mqtt.connect('mqtt://test.mosquitto.org:8080', { clear: true });
     } catch (e) {
       this.error = e.toString();
     }

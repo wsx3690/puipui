@@ -73,6 +73,7 @@ export default {
 <style scoped lang="scss">
 .joystick {
   width: 100%;
+  background-color: rgb(243, 240, 235);
   position: relative;
   height: 100%;
   margin-top: 10px;
