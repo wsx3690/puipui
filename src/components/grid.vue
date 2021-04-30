@@ -61,10 +61,13 @@ export default {
   //將數據帶入表格
   computed: {
     tableData() {
+      //定義光敏數據描述 小於 500 :太暗， 500 以上:正常
+      const lightDescription = this.sensorDetail.light < 500 ? '太暗':'正常';
       return [
         {
           situation: this.sensorDetail.situation,
-          light: this.sensorDetail.light,
+          //顯示欄位內容加上描述 null 時 顯示 N/A
+          light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
           humidity: this.sensorDetail.humidity,
         },
       ];
