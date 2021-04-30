@@ -44,7 +44,7 @@ export default {
       default: () => 'sensor_Light',
     },
   },
-
+  //data內為定義變數的區塊
   data() {
     return {
       client: null,
@@ -57,6 +57,8 @@ export default {
       error: '',
     };
   },
+
+  //將數據帶入表格
   computed: {
     tableData() {
       return [
@@ -92,7 +94,7 @@ export default {
       var url = `http://172.20.10.2/capture?${new Date() * 1}`;
       this.captureImages.push(url);
     },
-    //接收broker傳送的資料
+    //接收broker傳送的資料(讀取感測器數據)
     onMessaged(t, message) {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
@@ -121,7 +123,7 @@ export default {
         console.log('Error:', err);
         console.log('Topic:', this.topicLight);
         this.subscribeSuccess = true;
-        //顯示土壤濕度感測器數值
+        //顯示光敏感測器數值
         console.log('Subscribe to topics res', res);
       });
     },
