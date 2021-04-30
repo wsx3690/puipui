@@ -62,12 +62,13 @@ export default {
   computed: {
     tableData() {
       //定義光敏數據描述 小於 500 :太暗， 500 以上:正常
-      const lightDescription = this.sensorDetail.light < 500 ? '太暗':'正常';
+      // const lightDescription = this.sensorDetail.light < 500 ? '太暗':'正常';
       return [
         {
           situation: this.sensorDetail.situation,
+          light: this.sensorDetail.light,
           //顯示欄位內容加上描述 null 時 顯示 N/A
-          light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
+          // light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
           humidity: this.sensorDetail.humidity,
         },
       ];
@@ -103,13 +104,42 @@ export default {
       // message is Buffer
       // console.log(message.toString()); //print the direction on console
       if (t == this.topicHumidity) {
-        this.sensorDetail.humidity = message.toString();
+        var j, h;
+        j = message.toString();
+        h = message.toString();
+        parseInt(j,h);//轉成整數型態
+        j = (j/1023)*100;
+        h=Math.round(j);
+        parseInt(h);
+        if(j>75 && j<=100){
+          j='土壤乾燥';
+        }else if(j>50){
+          j='土壤濕度正常';
+        }else if(j<50 && j>=0){
+          j='土壤濕潤';
+        }
+       this.sensorDetail.humidity =  h + '%;' + '狀態:' + j ; 
+        //this.sensorDetail.humidity = message.toString();
       }
-
+ 
       if (t == this.topicLight) {
-        this.sensorDetail.light = message.toString();
+        var i ,k;
+        i = message.toString();
+        k = message.toString();
+        parseInt(i);
+        //i = i/1023*100;
+        if(i>750 && i<=1023){
+            i='光照充足';
+        }else if(i>500){
+             i='光照普通';
+        }else if(i<500 &&i>=0){
+             i='光照缺乏';
+        }
+        this.sensorDetail.light = k + ';' + '狀態:' + i;
+        //this.sensorDetail.light = message.toString();
       }
     },
+
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
       this.client.subscribe(this.topicHumidity, (err, res) => {
