@@ -20,7 +20,10 @@
       </div>
     </div>
     <div class="screenshot">
-      <button @click="capture()">拍照</button>
+      <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
+      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照
+        <i class="pi pi-camera"></i></Button>
+      <!-- <button @click="capture()">拍照</button> -->
       <div v-for="(url, i) in captureImages" :key="i">
         <img :src="url" />
       </div>
