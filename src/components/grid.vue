@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper">
     <DataTable class="dashboard" :value="tableData" responsiveLayout="scroll">
-      <!-- <template #header>
+      <template #header>
         <div class="table-header">
-          Products
-          <Button icon="pi pi-refresh" />
+          <!-- <Button icon="" /> -->
+          現在時間 :{{sensorDetail.time}}
         </div>
-      </template> -->
+      </template>
       <Column field="situation" header="車子狀況"></Column>
       <Column field="light" header="光敏"></Column>
       <Column field="humidity" header="濕度"></Column>
@@ -56,6 +56,7 @@ export default {
         situation: null,
         light: null,
         humidity: null,
+        time: null, 
       },
       captureImages: [],
       error: '',
@@ -74,6 +75,7 @@ export default {
           //顯示欄位內容加上描述 null 時 顯示 N/A
           // light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
           humidity: this.sensorDetail.humidity,
+          time: this.sensorDetail.time,
         },
       ];
     },
@@ -95,6 +97,10 @@ export default {
     this.client.on('connect', this.onConnected);
     //綁定接收到訊息的事件處理到用戶端
     this.client.on('message', this.onMessaged);
+
+    //時間一秒跳一次
+    setInterval(this.timeTick, 1000);
+
   },
   methods: {
     //截圖
@@ -155,6 +161,18 @@ export default {
       }
     },
 
+    //設定時間
+    formatDate(date) {
+      return `${date.toLocaleDateString('zh-TW')} ${this.week(date)} ${date.toLocaleTimeString('zh-TW')}`;
+    },
+    week(date) {
+      const weekDay = ['一', '二', '三', '四', '五', '六', '日'];
+      return `星期${weekDay[date.getDay()]}`;
+    },
+    timeTick() {
+      this.sensorDetail.time = this.formatDate(new Date());
+    },
+
     //連線成功時的訂閱溫度溼度等資訊
     onConnected() {
       this.client.subscribe(this.topicUltrasound, (err, res) => {
@@ -186,6 +204,7 @@ export default {
     },
   },
 };
+    
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
