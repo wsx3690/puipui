@@ -37,7 +37,7 @@ export default {
   props: {
     topicUltrasound: {
       type: String,
-      default: () => 'ultrasound',
+      default: () => 'distance',
     },
     topicHumidity: {
       type: String,
@@ -107,7 +107,14 @@ export default {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
       if (t == this.topicUltrasound) {
-      this.sensorDetail.situation = message.toString();
+      var alert;
+      alert = message.toString();
+      if(alert == D){
+        alert ='快要撞到了';
+        }else if(alert == N){
+        alert ='正常';
+        }
+      this.sensorDetail.situation = alert;
       }
 
       if (t == this.topicHumidity) {
