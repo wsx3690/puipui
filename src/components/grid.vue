@@ -142,13 +142,14 @@ export default {
         k = message.toString();
         parseInt(i);
         //i = i/1023*100;
-        if (i > 750 && i <= 1023) {
-          i = '光照充足';
-        } else if (i > 500) {
-          i = '光照普通';
-        } else if (i < 500 && i >= 0) {
-          i = '光照缺乏';
+        if(i>500 && i<=1023){
+            i='光照充足';
+        }else if(i<500 && i>200){
+             i='光照正常';
+        }else if(i<200 && i>=0){
+             i='光照缺乏';
         }
+
         this.sensorDetail.light = k + ';' + '狀態:' + i;
         //this.sensorDetail.light = message.toString();
       }
