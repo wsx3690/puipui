@@ -13,7 +13,7 @@ export default {
   props: {
     topic: {
       type: String,
-      default: () => 'jsd/web',  //預設topic名稱
+      default: () => 'jsd/web', //預設topic名稱
     },
   },
   data() {
@@ -37,7 +37,7 @@ export default {
     });
 
     //tells the client which broker to connect to.
-    this.client = mqtt.connect('mqtt://test.mosquitto.org:8080'); 
+    this.client = mqtt.connect('mqtt://test.mosquitto.org:8080');
 
     this.client.on('connect', () => {
       this.client.subscribe(this.topic, err => {
@@ -63,7 +63,7 @@ export default {
   methods: {
     staticGamepadMove(evt) {
       //publish the same topic to connect to the broker,use replace to remove "dir" 讓他單純pub出up left down right
-      this.client.publish(this.topic, evt.type.replace(/dir[:]/, '')); 
+      this.client.publish(this.topic, evt.type.replace(/dir[:]/, ''));
     },
     staticGamepadMoveEnd() {
       this.client.publish(this.topic, 'end'); //release joystick,then pub "end"
@@ -74,7 +74,7 @@ export default {
 <style scoped lang="scss">
 .joystick {
   width: 100%;
-  background-color: rgb(243, 240, 235);
+  background-color: rgba(235, 235, 235, 0.959);
   position: relative;
   height: 100%;
   margin-top: 10px;

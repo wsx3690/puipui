@@ -4,7 +4,7 @@
       <template #header>
         <div class="table-header">
           <!-- <Button icon="" /> -->
-          現在時間 :{{sensorDetail.time}}
+          現在時間 :{{ sensorDetail.time }}
         </div>
       </template>
       <Column field="situation" header="車子狀況"></Column>
@@ -21,8 +21,7 @@
     </div>
     <div class="screenshot">
       <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
-      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照
-        <i class="pi pi-camera"></i></Button>
+      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照 <i class="pi pi-camera"></i></Button>
       <!-- <button @click="capture()">拍照</button> -->
       <div v-for="(url, i) in captureImages" :key="i">
         <img :src="url" />
@@ -59,7 +58,7 @@ export default {
         situation: null,
         light: null,
         humidity: null,
-        time: null, 
+        time: null,
       },
       captureImages: [],
       error: '',
@@ -103,7 +102,6 @@ export default {
 
     //時間一秒跳一次
     setInterval(this.timeTick, 1000);
-
   },
   methods: {
     //截圖
@@ -151,12 +149,12 @@ export default {
         k = message.toString();
         parseInt(i);
         //i = i/1023*100;
-        if(i>500 && i<=1023){
-            i='光照充足';
-        }else if(i<500 && i>200){
-             i='光照正常';
-        }else if(i<200 && i>=0){
-             i='光照缺乏';
+        if (i > 500 && i <= 1023) {
+          i = '光照充足';
+        } else if (i < 500 && i > 200) {
+          i = '光照正常';
+        } else if (i < 200 && i >= 0) {
+          i = '光照缺乏';
         }
 
         this.sensorDetail.light = k + ';' + '狀態:' + i;
@@ -165,10 +163,12 @@ export default {
     },
 
     //設定時間
-    formatDate(date) {   //欲顯示的時間格式: 日期 星期 時間，toLocaleDateString/toLocaleTimeString是內建的時間prototype
+    formatDate(date) {
+      //欲顯示的時間格式: 日期 星期 時間，toLocaleDateString/toLocaleTimeString是內建的時間prototype
       return `${date.toLocaleDateString('zh-TW')} ${this.week(date)} ${date.toLocaleTimeString('zh-TW')}`;
     },
-    week(date) {  //回傳星期幾，getDay()是內建的時間prototype，0是周日,1是周一，依此類推
+    week(date) {
+      //回傳星期幾，getDay()是內建的時間prototype，0是周日,1是周一，依此類推
       const weekDay = ['日', '一', '二', '三', '四', '五', '六'];
       return `星期${weekDay[date.getDay()]}`;
     },
@@ -207,7 +207,6 @@ export default {
     },
   },
 };
-    
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
