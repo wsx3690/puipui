@@ -166,7 +166,7 @@ export default {
       return `${date.toLocaleDateString('zh-TW')} ${this.week(date)} ${date.toLocaleTimeString('zh-TW')}`;
     },
     week(date) {
-      const weekDay = ['一', '二', '三', '四', '五', '六', '日'];
+      const weekDay = ['日', '一', '二', '三', '四', '五', '六'];
       return `星期${weekDay[date.getDay()]}`;
     },
     timeTick() {
