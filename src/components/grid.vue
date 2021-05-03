@@ -107,47 +107,47 @@ export default {
       //Let’s also add a message event handler that will log the messages that our subscriber client receives on the topic.
       // message is Buffer
       if (t == this.topicUltrasound) {
-      var alert;
-      alert = message.toString();
-      if(alert == D){
-        alert ='快要撞到了';
-        }else if(alert == N){
-        alert ='正常';
+        var alert;
+        alert = message.toString();
+        if (alert == 'D') {
+          alert = '快要撞到了';
+        } else if (alert == 'N') {
+          alert = '正常';
         }
-      this.sensorDetail.situation = alert;
+        this.sensorDetail.situation = alert;
       }
 
       if (t == this.topicHumidity) {
         var j, h;
         j = message.toString();
         h = message.toString();
-        parseInt(j,h);//轉成整數型態
-        j = (j/1023)*100;
-        h=Math.round(j);
+        parseInt(j, h); //轉成整數型態
+        j = (j / 1023) * 100;
+        h = Math.round(j);
         parseInt(h);
-        if(j>75 && j<=100){
-          j='土壤乾燥';
-        }else if(j>50){
-          j='土壤濕度正常';
-        }else if(j<50 && j>=0){
-          j='土壤濕潤';
+        if (j > 75 && j <= 100) {
+          j = '土壤乾燥';
+        } else if (j > 50) {
+          j = '土壤濕度正常';
+        } else if (j < 50 && j >= 0) {
+          j = '土壤濕潤';
         }
-       this.sensorDetail.humidity =  h + '%;' + '狀態:' + j ; 
+        this.sensorDetail.humidity = h + '%;' + '狀態:' + j;
         //this.sensorDetail.humidity = message.toString();
       }
- 
+
       if (t == this.topicLight) {
-        var i ,k;
+        var i, k;
         i = message.toString();
         k = message.toString();
         parseInt(i);
         //i = i/1023*100;
-        if(i>750 && i<=1023){
-            i='光照充足';
-        }else if(i>500){
-             i='光照普通';
-        }else if(i<500 &&i>=0){
-             i='光照缺乏';
+        if (i > 750 && i <= 1023) {
+          i = '光照充足';
+        } else if (i > 500) {
+          i = '光照普通';
+        } else if (i < 500 && i >= 0) {
+          i = '光照缺乏';
         }
         this.sensorDetail.light = k + ';' + '狀態:' + i;
         //this.sensorDetail.light = message.toString();
@@ -163,7 +163,7 @@ export default {
         this.subscribeSuccess = true;
         //顯示超音波感測器數值
         console.log('Subscribe to topics res', res);
-      }); 
+      });
 
       this.client.subscribe(this.topicHumidity, (err, res) => {
         //add a connection event handler that will subscribe the client to a topic. Since our publisher client is publishing messages to the topic, let’s subscribe to the topic so that we can get the messages it sends.
