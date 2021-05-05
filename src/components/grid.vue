@@ -9,12 +9,12 @@
       </template>
       <Column field="situation" header="車子狀況"></Column>
       <Column field="light" header="光照強度">
-        <template>
+        <template #body="slotProps">
+          <Gauge :value="slotProps.data.light.value" :min="0" :max="100"> </Gauge>
           <i class="pi pi-sun"></i>
-          <Gauge :value="50" :min="0" :max="100"> </Gauge>
         </template>
       </Column>
-      <Column field="humidity" header=" 土壤濕度"></Column>
+      <Column field="humidity" header="土壤濕度"></Column>
       <!-- <template #footer>
         {{ tableData }}
       </template> -->
