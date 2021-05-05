@@ -8,25 +8,23 @@
         </div>
       </template>
       <Column field="situation" header="車子狀況"></Column>
-      <Column field="light" header="光敏"></Column>
-      <Column field="humidity" header="濕度"></Column>
+      <Column field="light" header="光照強度"></Column>
+      <Column field="humidity" header=" 土壤濕度"></Column>
       <!-- <template #footer>
         {{ tableData }}
       </template> -->
     </DataTable>
+    <br />
+    <br />
     <div class="camera">
       <div>
         <img src="http://172.20.10.2:81/stream" />
+        <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
+        <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
+        <!-- <button @click="capture()">拍照</button> -->
       </div>
     </div>
     <div class="screenshot">
-      <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
-<<<<<<< HEAD
-      <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
-=======
-      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照 <i class="pi pi-camera"></i></Button>
->>>>>>> 811b6ac2528215a131e829b2eba61fb23fcb6b17
-      <!-- <button @click="capture()">拍照</button> -->
       <div v-for="(url, i) in captureImages" :key="i">
         <img :src="url" />
       </div>
@@ -143,7 +141,7 @@ export default {
         } else if (j < 50 && j >= 0) {
           j = '土壤濕潤';
         }
-        this.sensorDetail.humidity = h + '%;' + '狀態:' + j;
+        this.sensorDetail.humidity = 100 - h + '%;' + '狀態:' + j;
         //this.sensorDetail.humidity = message.toString();
       }
 
@@ -217,18 +215,20 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   position: relative;
-  height: 45vh;
+  // position: static;
+  height: 60vh;
 }
 .dashboard {
-  font-size: 28px;
-  height: 30%;
+  font-size: 24px;
+  // height: 30%;
   width: 100%;
 }
 .screenshot {
-  height: 40%;
+  height: 30%;
   overflow: auto;
 }
 .camera {
+  // position: relative;
   height: 30%;
 }
 </style>
