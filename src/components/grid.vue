@@ -21,7 +21,11 @@
     </div>
     <div class="screenshot">
       <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
+<<<<<<< HEAD
       <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
+=======
+      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照 <i class="pi pi-camera"></i></Button>
+>>>>>>> 811b6ac2528215a131e829b2eba61fb23fcb6b17
       <!-- <button @click="capture()">拍照</button> -->
       <div v-for="(url, i) in captureImages" :key="i">
         <img :src="url" />
@@ -164,9 +168,11 @@ export default {
 
     //設定時間
     formatDate(date) {
+      //欲顯示的時間格式: 日期 星期 時間，toLocaleDateString/toLocaleTimeString是內建的時間prototype
       return `${date.toLocaleDateString('zh-TW')} ${this.week(date)} ${date.toLocaleTimeString('zh-TW')}`;
     },
     week(date) {
+      //回傳星期幾，getDay()是內建的時間prototype，0是周日,1是周一，依此類推
       const weekDay = ['日', '一', '二', '三', '四', '五', '六'];
       return `星期${weekDay[date.getDay()]}`;
     },
