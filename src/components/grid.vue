@@ -14,6 +14,7 @@
         {{ tableData }}
       </template> -->
     </DataTable>
+    <Gauge :value="sensorDetail.light.value" :min="0" :max="100"> </Gauge>
     <div class="camera">
       <div>
         <img src="http://172.20.10.2:81/stream" />
@@ -21,11 +22,7 @@
     </div>
     <div class="screenshot">
       <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
-<<<<<<< HEAD
       <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
-=======
-      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照 <i class="pi pi-camera"></i></Button>
->>>>>>> 811b6ac2528215a131e829b2eba61fb23fcb6b17
       <!-- <button @click="capture()">拍照</button> -->
       <div v-for="(url, i) in captureImages" :key="i">
         <img :src="url" />
@@ -36,10 +33,11 @@
 
 <script>
 import mqtt from 'mqtt';
+import Gauge from '../components/Gauge';
 
 export default {
   name: 'sensor',
-  components: {},
+  components: { Gauge },
   props: {
     topicUltrasound: {
       type: String,
@@ -60,7 +58,7 @@ export default {
       client: null,
       sensorDetail: {
         situation: null,
-        light: null,
+        light: { text: 'N/A', value: 0 },
         humidity: null,
         time: null,
       },
@@ -77,7 +75,7 @@ export default {
       return [
         {
           situation: this.sensorDetail.situation,
-          light: this.sensorDetail.light,
+          light: this.sensorDetail.light.value,
           //顯示欄位內容加上描述 null 時 顯示 N/A
           // light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
           humidity: this.sensorDetail.humidity,
@@ -161,7 +159,10 @@ export default {
           i = '光照缺乏';
         }
 
-        this.sensorDetail.light = k + ';' + '狀態:' + i;
+        this.sensorDetail.light = {
+          text: k + ';' + '狀態:' + i,
+          value: Number(k),
+        };
         //this.sensorDetail.light = message.toString();
       }
     },
@@ -230,5 +231,13 @@ export default {
 }
 .camera {
   height: 30%;
+}
+</style>
+<style lang="scss">
+.p-datatable-tbody [role='cell'],
+.p-column-header-content {
+  font-size: 14px;
+  justify-content: center;
+  text-align: center;
 }
 </style>
