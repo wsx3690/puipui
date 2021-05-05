@@ -10,8 +10,9 @@
       <Column field="situation" header="車子狀況"></Column>
       <Column field="light" header="光敏">
         <template #body="slotProps">
-          <Gauge :value="slotProps.data.light.value" :min="0" :max="100"> </Gauge>
+          <Gauge style="tranform: scale(0.5)" :value="slotProps.data.light.value" :min="0" :max="1023"> </Gauge>
           <i class="pi pi-sun"></i>
+          {{ slotProps.data.light.text }}
         </template>
       </Column>
       <Column field="humidity" header="濕度"></Column>
@@ -80,7 +81,7 @@ export default {
       return [
         {
           situation: this.sensorDetail.situation,
-          light: this.sensorDetail.light.value,
+          light: this.sensorDetail.light,
           //顯示欄位內容加上描述 null 時 顯示 N/A
           // light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
           humidity: this.sensorDetail.humidity,
@@ -244,5 +245,8 @@ export default {
   font-size: 14px;
   justify-content: center;
   text-align: center;
+}
+.gauge {
+  transform: scale(0.35);
 }
 </style>
