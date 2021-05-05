@@ -8,13 +8,18 @@
         </div>
       </template>
       <Column field="situation" header="車子狀況"></Column>
-      <Column field="light" header="光敏"></Column>
+      <Column field="light" header="光敏">
+        <template #body="slotProps">
+          <Gauge :value="slotProps.data.light.value" :min="0" :max="100"> </Gauge>
+          <i class="pi pi-sun"></i>
+        </template>
+      </Column>
       <Column field="humidity" header="濕度"></Column>
       <!-- <template #footer>
         {{ tableData }}
       </template> -->
     </DataTable>
-    <Gauge :value="sensorDetail.light.value" :min="0" :max="100"> </Gauge>
+
     <div class="camera">
       <div>
         <img src="http://172.20.10.2:81/stream" />
