@@ -30,7 +30,7 @@
 .wrapper {
   width: 1200px;
   margin: 0 auto;
-  @media screen and(max-width:800px) {
+  @media screen and(max-width:1200px) {
     width: 96%;
   }
 }

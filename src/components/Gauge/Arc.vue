@@ -1,21 +1,15 @@
 <template>
-  <path
-    :d="d"
-    :stroke="stroke"
-    :stroke-width="strokeWidth"
-    :fill="fill"
-    :style="{ transitionDelay: `${transitionDelay}s` }"
-  />
+  <path :d="d" :stroke="stroke" :stroke-width="strokeWidth" :fill="fill" :style="{ transitionDelay: `${transitionDelay}s` }" />
 </template>
 
 <script>
-import { arcPath, polarToCartesian } from "../../lib/chart";
+import { arcPath, polarToCartesian } from '../../lib/chart';
 
 export default {
   props: {
     stroke: {
       type: String,
-      default: "none",
+      default: 'none',
     },
     strokeWidth: {
       type: Number,
@@ -23,7 +17,7 @@ export default {
     },
     fill: {
       type: String,
-      default: "currentcolor",
+      default: 'currentcolor',
     },
     thickness: {
       type: Number,
@@ -85,53 +79,24 @@ export default {
       return this.max360(this.endAngle - this.originAngleOffset);
     },
     innerAngleA() {
-      return this.max360(
-        this.startInnerAngle ? this.startInnerAngle - this.originAngleOffset : this.angleA,
-      );
+      return this.max360(this.startInnerAngle ? this.startInnerAngle - this.originAngleOffset : this.angleA);
     },
     innerAngleB() {
-      return this.max360(
-        this.endInnerAngle ? this.endInnerAngle - this.originAngleOffset : this.angleB,
-      );
+      return this.max360(this.endInnerAngle ? this.endInnerAngle - this.originAngleOffset : this.angleB);
     },
     largeArcFlag() {
       return this.angleB - this.angleA > 180;
     },
     d() {
-      const outerArc = arcPath(
-        this.centerX,
-        this.centerY,
-        this.radius,
-        this.angleA,
-        this.angleB,
-        this.largeArcFlag,
-      );
+      const outerArc = arcPath(this.centerX, this.centerY, this.radius, this.angleA, this.angleB, this.largeArcFlag);
 
       const outerStart = polarToCartesian(this.centerX, this.centerY, this.radius, this.angleB);
 
-      const innerArc = arcPath(
-        this.centerX,
-        this.centerY,
-        this.innerRadius,
-        -1 * this.innerAngleB,
-        -1 * this.innerAngleA,
-        this.largeArcFlag,
-        true,
-      );
+      const innerArc = arcPath(this.centerX, this.centerY, this.innerRadius, -1 * this.innerAngleB, -1 * this.innerAngleA, this.largeArcFlag, true);
 
-      const innerStart = polarToCartesian(
-        this.centerX,
-        this.centerY,
-        this.innerRadius,
-        this.innerAngleB,
-      );
+      const innerStart = polarToCartesian(this.centerX, this.centerY, this.innerRadius, this.innerAngleB);
 
-      const innerEnd = polarToCartesian(
-        this.centerX,
-        this.centerY,
-        this.innerRadius,
-        this.innerAngleA,
-      );
+      const innerEnd = polarToCartesian(this.centerX, this.centerY, this.innerRadius, this.innerAngleA);
 
       return `M ${innerStart.x} ${innerStart.y} L ${outerStart.x} ${outerStart.y} ${outerArc} L ${innerEnd.x} ${innerEnd.y} ${innerArc}`;
     },

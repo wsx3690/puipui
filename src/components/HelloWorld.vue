@@ -237,4 +237,3 @@ export default {
   },
 };
 </script>
-

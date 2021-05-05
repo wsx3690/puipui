@@ -1,13 +1,6 @@
 <template>
   <g>
-    <circle
-      :cx="radius"
-      :cy="radius + 10"
-      :r="pivotRadius"
-      :fill="pivotFill"
-      :stroke-width="pivotStrokeWidth"
-      :stroke="pivotStroke"
-    />
+    <circle :cx="radius" :cy="radius + 10" :r="pivotRadius" :fill="pivotFill" :stroke-width="pivotStrokeWidth" :stroke="pivotStroke" />
     <line
       :x1="radius / 2"
       :y1="radius + 10"
@@ -31,7 +24,7 @@
 </template>
 
 <script>
-import styleProps from "../../lib/svgStyleProps";
+import styleProps from '../../lib/svgStyleProps';
 
 export default {
   props: {
@@ -41,7 +34,7 @@ export default {
     },
     pointerStroke: {
       type: String,
-      default: "currentcolor",
+      default: 'currentcolor',
     },
     pointerStrokeWidth: {
       type: Number,
@@ -51,7 +44,7 @@ export default {
       type: Number,
       default: 20,
     },
-    ...styleProps("pivot", { strokeWidth: 2, stroke: "currentcolor", fill: "currentcolor" }),
+    ...styleProps('pivot', { strokeWidth: 2, stroke: 'currentcolor', fill: 'currentcolor' }),
   },
 };
 </script>

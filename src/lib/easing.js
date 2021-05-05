@@ -1,12 +1,12 @@
-import bezierEasing from "bezier-easing";
+import bezierEasing from 'bezier-easing';
 
 // easing-alias : [x1, y1, x2, y2]
 const easings = {
   ease: [0.25, 1, 0.25, 1],
   linear: [0, 0, 1, 1],
-  "ease-in": [0.42, 0, 1, 1],
-  "ease-out": [0, 0, 0.58, 1],
-  "ease-in-out": [0.42, 0, 0.58, 1],
+  'ease-in': [0.42, 0, 1, 1],
+  'ease-out': [0, 0, 0.58, 1],
+  'ease-in-out': [0.42, 0, 0.58, 1],
 };
 
 export const easing = (...easing) => {

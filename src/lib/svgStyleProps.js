@@ -3,12 +3,12 @@ export default (property, defaults = {}) => {
     [`${property}Fill`]: {
       type: String,
       required: false,
-      default: defaults.fill || "currentcolor",
+      default: defaults.fill || 'currentcolor',
     },
     [`${property}Stroke`]: {
       type: String,
       required: false,
-      default: defaults.stroke || "none",
+      default: defaults.stroke || 'none',
     },
     [`${property}StrokeWidth`]: {
       type: Number,

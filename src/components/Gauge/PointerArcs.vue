@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import Arc from "./Arc.vue";
-import { innerAnglePointerAdjustment } from "../../lib/chart";
-import styleProps from "../../lib/svgStyleProps";
+import Arc from './Arc.vue';
+import { innerAnglePointerAdjustment } from '../../lib/chart';
+import styleProps from '../../lib/svgStyleProps';
 
 export default {
   components: {
@@ -71,12 +71,12 @@ export default {
       type: Boolean,
       default: true,
     },
-    ...styleProps("active", { fill: "currentcolor" }),
+    ...styleProps('active', { fill: 'currentcolor' }),
     inactive: {
       type: Boolean,
       default: true,
     },
-    ...styleProps("inactive", { fill: "currentcolor" }),
+    ...styleProps('inactive', { fill: 'currentcolor' }),
   },
   computed: {
     innerRadius() {

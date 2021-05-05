@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <DataTable class="dashboard" :value="tableData" responsiveLayout="scroll">
+    <DataTable class="dashboard" :value="tableData" responsiveLayout="hidden">
       <template #header>
         <div class="table-header">
           <!-- <Button icon="" /> -->
@@ -25,15 +25,15 @@
 
     <div class="camera">
       <div>
-        <img src="http://172.20.10.2:81/stream" />
-        <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
-        <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
-        <!-- <button @click="capture()">拍照</button> -->
-      </div>
-    </div>
-    <div class="screenshot">
-      <div v-for="(url, i) in captureImages" :key="i">
-        <img :src="url" />
+        <div class="p-grid p-ai-center">
+          <div class="p-col-6 p-md-4 p-md-offset-4">
+            <img v-show="streamSuccess" style="width:100%;" @load="streamSuccess=true;" :src="streamUrl" />
+            <img v-show="!streamSuccess" style="width:100%;" :src="defaultPicture" />
+          </div>
+          <div class="p-col-6 p-md-12">
+            <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -42,6 +42,7 @@
 <script>
 import mqtt from 'mqtt';
 import Gauge from '../components/Gauge';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'sensor',
@@ -61,7 +62,7 @@ export default {
     },
   },
   //data內為定義變數的地方(但定義之變數僅限用於grid.vue檔內)
-  data() {
+  data(){
     return {
       client: null,
       sensorDetail: {
@@ -70,8 +71,10 @@ export default {
         humidity: null,
         time: null,
       },
-      captureImages: [],
       error: '',
+      streamUrl: 'http://172.20.10.2:81/stream',
+      defaultPicture: require('../assets/xp.jpg'),
+      streamSuccess: false,
     };
   },
 
@@ -114,10 +117,12 @@ export default {
     setInterval(this.timeTick, 1000);
   },
   methods: {
+    ...mapMutations(['pushImage']),
     //截圖
     capture() {
-      var url = `http://172.20.10.2/capture?${new Date() * 1}`;
-      this.captureImages.push(url);
+      const url = `http://172.20.10.2/capture?${new Date() * 1}`;
+      this.pushImage(url);
+      
     },
     //接收broker傳送的資料(讀取感測器數據)
     onMessaged(t, message) {
@@ -218,6 +223,7 @@ export default {
         console.log('Subscribe to topics res', res);
       });
     },
+
   },
 };
 </script>
@@ -226,29 +232,32 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   position: relative;
-  // position: static;
-  height: 60vh;
+  @media screen and(max-width:800px) {
+    // height: 60vh;
+  }
 }
 .dashboard {
   font-size: 24px;
-  // height: 30%;
-  width: 100%;
-}
-.screenshot {
-  height: 30%;
-  overflow: auto;
+  @media screen and(max-width:800px) {
+    width: 100%;
+    font-size: 13px;
+  }
 }
 .camera {
-  // position: relative;
-  height: 30%;
+  @media screen and(max-width:800px) {
+    height: 30%;
+  }
 }
 </style>
 <style lang="scss">
 .p-datatable-tbody [role='cell'],
 .p-column-header-content {
-  font-size: 14px;
+  font-size: 24px;
   justify-content: center;
   text-align: center;
+  @media screen and(max-width:800px) {
+    font-size: 13px;
+  }
 }
 .gauge {
   transform: scale(0.35);

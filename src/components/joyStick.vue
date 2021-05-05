@@ -82,6 +82,9 @@ export default {
 }
 .wrapper {
   position: relative;
-  height: 30vh;
+  height: 500px;
+  @media screen and(max-width:800px) {
+    height: 30vh;
+  }
 }
 </style>
