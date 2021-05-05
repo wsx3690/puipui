@@ -22,7 +22,7 @@
     </DataTable>
     <br />
     <br />
-    
+
     <div class="camera">
       <div>
         <img src="http://172.20.10.2:81/stream" />
@@ -252,5 +252,6 @@ export default {
 }
 .gauge {
   transform: scale(0.35);
+  height: 5em;
 }
 </style>
