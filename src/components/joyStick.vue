@@ -82,6 +82,6 @@ export default {
 }
 .wrapper {
   position: relative;
-  height: 45vh;
+  height: 30vh;
 }
 </style>
