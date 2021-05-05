@@ -8,7 +8,12 @@
         </div>
       </template>
       <Column field="situation" header="車子狀況"></Column>
-      <Column field="light" header="光照強度"></Column>
+      <Column field="light" header="光照強度">
+        <template>
+          <i class="pi pi-sun"></i>
+          <Gauge :value="50" :min="0" :max="100"> </Gauge>
+        </template>
+      </Column>
       <Column field="humidity" header=" 土壤濕度"></Column>
       <!-- <template #footer>
         {{ tableData }}
@@ -16,6 +21,7 @@
     </DataTable>
     <br />
     <br />
+    
     <div class="camera">
       <div>
         <img src="http://172.20.10.2:81/stream" />
@@ -34,10 +40,11 @@
 
 <script>
 import mqtt from 'mqtt';
+import Gauge from '../components/Gauge';
 
 export default {
   name: 'sensor',
-  components: {},
+  components: { Gauge },
   props: {
     topicUltrasound: {
       type: String,
@@ -58,7 +65,7 @@ export default {
       client: null,
       sensorDetail: {
         situation: null,
-        light: null,
+        light: { text: 'N/A', value: 0 },
         humidity: null,
         time: null,
       },
@@ -75,7 +82,7 @@ export default {
       return [
         {
           situation: this.sensorDetail.situation,
-          light: this.sensorDetail.light,
+          light: this.sensorDetail.light.value,
           //顯示欄位內容加上描述 null 時 顯示 N/A
           // light: this.sensorDetail.light != null ? `${lightDescription}(${this.sensorDetail.light})` : 'N/A',
           humidity: this.sensorDetail.humidity,
@@ -159,7 +166,10 @@ export default {
           i = '光照缺乏';
         }
 
-        this.sensorDetail.light = k + ';' + '狀態:' + i;
+        this.sensorDetail.light = {
+          text: k + ';' + '狀態:' + i,
+          value: Number(k),
+        };
         //this.sensorDetail.light = message.toString();
       }
     },
@@ -230,5 +240,13 @@ export default {
 .camera {
   // position: relative;
   height: 30%;
+}
+</style>
+<style lang="scss">
+.p-datatable-tbody [role='cell'],
+.p-column-header-content {
+  font-size: 14px;
+  justify-content: center;
+  text-align: center;
 }
 </style>
