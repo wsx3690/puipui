@@ -4,7 +4,7 @@
       <template #header>
         <div class="table-header">
           <!-- <Button icon="" /> -->
-          現在時間 :{{sensorDetail.time}}
+          現在時間 :{{ sensorDetail.time }}
         </div>
       </template>
       <Column field="situation" header="車子狀況"></Column>
@@ -21,8 +21,7 @@
     </div>
     <div class="screenshot">
       <!-- <Button @click="capture()" label="拍照" class="p-button-outlined p-button-secondary" /> -->
-      <Button class="p-button-outlined p-button-secondary" @click="capture()">拍照
-        <i class="pi pi-camera"></i></Button>
+      <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
       <!-- <button @click="capture()">拍照</button> -->
       <div v-for="(url, i) in captureImages" :key="i">
         <img :src="url" />
@@ -59,7 +58,7 @@ export default {
         situation: null,
         light: null,
         humidity: null,
-        time: null, 
+        time: null,
       },
       captureImages: [],
       error: '',
@@ -103,7 +102,6 @@ export default {
 
     //時間一秒跳一次
     setInterval(this.timeTick, 1000);
-
   },
   methods: {
     //截圖
@@ -151,12 +149,12 @@ export default {
         k = message.toString();
         parseInt(i);
         //i = i/1023*100;
-        if(i>500 && i<=1023){
-            i='光照充足';
-        }else if(i<500 && i>200){
-             i='光照正常';
-        }else if(i<200 && i>=0){
-             i='光照缺乏';
+        if (i > 500 && i <= 1023) {
+          i = '光照充足';
+        } else if (i < 500 && i > 200) {
+          i = '光照正常';
+        } else if (i < 200 && i >= 0) {
+          i = '光照缺乏';
         }
 
         this.sensorDetail.light = k + ';' + '狀態:' + i;
@@ -207,7 +205,6 @@ export default {
     },
   },
 };
-    
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -217,6 +214,7 @@ export default {
   height: 45vh;
 }
 .dashboard {
+  font-size: 28px;
   height: 30%;
   width: 100%;
 }
