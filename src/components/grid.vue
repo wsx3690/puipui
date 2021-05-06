@@ -125,8 +125,8 @@ export default {
     ...mapMutations(['pushImage']),
     //截圖
     capture() {
-      // const url = `http://172.20.10.2/capture?${new Date() * 1}`;
-      const url = `${this.defaultPicture}?${new Date() * 1}`;
+      const url = `http://172.20.10.2/capture?${new Date() * 1}`;
+      // const url = `${this.defaultPicture}?${new Date() * 1}`;
       this.pushImage({ url });
     },
     //接收broker傳送的資料(讀取感測器數據)
