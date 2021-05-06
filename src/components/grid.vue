@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <DataTable class="dashboard" :value="tableData" responsiveLayout="hidden">
+    <DataTable style="text-align: center" class="dashboard" :value="tableData" responsiveLayout="hidden">
       <template #header>
         <div class="table-header">現在時間 :{{ sensorDetail.time }}</div>
       </template>
@@ -137,7 +137,7 @@ export default {
         var alert;
         alert = message.toString();
         if (alert == 'D') {
-          alert = '快要撞到了';
+          alert = '即將撞到障礙物';
         } else if (alert == 'N') {
           alert = '正常';
         }
@@ -161,8 +161,8 @@ export default {
           j = '土壤乾燥';
         }
         this.sensorDetail.humidity = {
-          text: 100 - h + '%;' + '狀態:' + j,
-          value: Number(100 - h),
+          text: h + '%;' + '狀態:' + j,
+          value: Number(h),
         };
         //this.sensorDetail.humidity = message.toString();
       }
@@ -240,6 +240,7 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   position: relative;
+  
   @media screen and(max-width:800px) {
     // height: 60vh;
   }
@@ -275,10 +276,12 @@ export default {
 }
 .p-datatable .p-datatable-tbody > tr > td {
   background: #faf2f0 !important;
+  text-align: center !important;
 }
 .p-accordion .p-accordion-tab:last-child .p-accordion-content{
   background: #FFE7E3 !important;
 }
+
 .gauge {
   transform: scale(0.35);
   height: 5em;
