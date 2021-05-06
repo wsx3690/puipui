@@ -46,5 +46,9 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   position: relative;
+
+}
+.p-accordion .p-accordion-header .p-accordion-header-link{
+  background: #F1D7D5 !important;
 }
 </style>

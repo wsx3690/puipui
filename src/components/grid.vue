@@ -3,7 +3,6 @@
     <DataTable class="dashboard" :value="tableData" responsiveLayout="hidden">
       <template #header>
         <div class="table-header">
-          <!-- <Button icon="" /> -->
           現在時間 :{{ sensorDetail.time }}
         </div>
       </template>
@@ -11,11 +10,17 @@
       <Column field="light" header="光照強度">
         <template #body="slotProps">
           <Gauge style="tranform: scale(0.5)" :value="slotProps.data.light.value" :min="0" :max="1023"> </Gauge>
-          <i class="pi pi-sun"></i>
+          <i style="width:30px" class="pi pi-sun"></i>
           {{ slotProps.data.light.text }}
         </template>
       </Column>
-      <Column field="humidity" header="土壤濕度"></Column>
+      <Column field="humidity" header="土壤濕度">
+        <template #body="slotProps">
+          <Gauge style="tranform: scale(0.5)" :value="slotProps.data.humidity.value" :min="0" :max="100"> </Gauge>
+          <img style="width:30px" src="../assets/humidity.svg" />
+          {{ slotProps.data.humidity.text }}
+        </template>
+      </Column>
       <!-- <template #footer>
         {{ tableData }}
       </template> -->
@@ -31,7 +36,7 @@
             <img v-show="!streamSuccess" style="width:100%;" :src="defaultPicture" />
           </div>
           <div class="p-col-6 p-md-12">
-            <Button class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
+            <Button style="background: #E5CECF" class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
           </div>
         </div>
       </div>
@@ -67,8 +72,8 @@ export default {
       client: null,
       sensorDetail: {
         situation: null,
-        light: { text: 'N/A', value: 0 },
-        humidity: null,
+        light: { text: '654', value: 654 },
+        humidity: { text: '70%', value: 70 },
         time: null,
       },
       error: '',
@@ -154,7 +159,10 @@ export default {
         } else if (j < 50 && j >= 0) {
           j = '土壤濕潤';
         }
-        this.sensorDetail.humidity = 100 - h + '%;' + '狀態:' + j;
+        this.sensorDetail.humidity = { 
+          text: (100 - h) + '%;' + '狀態:' + j,
+          value: Number(100-h),
+          };
         //this.sensorDetail.humidity = message.toString();
       }
 
@@ -256,8 +264,17 @@ export default {
   justify-content: center;
   text-align: center;
   @media screen and(max-width:800px) {
-    font-size: 13px;
+    font-size: 16px;
   }
+}
+.p-datatable .p-datatable-header{
+  background: #F1D7D5 !important;
+}
+.p-datatable .p-datatable-thead > tr > th {
+  background: #FEEDE5 !important;
+}
+.p-datatable .p-datatable-tbody > tr > td {
+  background: #FAF2F0 !important;
 }
 .gauge {
   transform: scale(0.35);
