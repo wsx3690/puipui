@@ -11,13 +11,13 @@
             <template #body="slotProps">
               <Gauge v-if="slotProps.data.light.value !== null" :value="slotProps.data.light.value" :min="0" :max="1023"> </Gauge>
               <i style="font-size: 20px" class="pi pi-sun"></i>
-              {{ slotProps.data.humidity.value }} <br />
-              {{ lightDescription(slotProps.data.humidity.value) }}
+              {{ slotProps.data.light.value }} <br />
+              {{ lightDescription(slotProps.data.light.value) }}
             </template>
           </Column>
           <Column field="humidity" header="土壤濕度">
             <template #body="slotProps">
-              <Gauge v-if="slotProps.data.light.value !== null" :value="slotProps.data.humidity.value" :min="0" :max="100"> </Gauge>
+              <Gauge v-if="slotProps.data.humidity.value !== null" :value="slotProps.data.humidity.value" :min="0" :max="1023"> </Gauge>
               <img style="width: 20px" src="../assets/humidity.svg" />
               <template v-if="slotProps.data.humidity.value !== null">{{ percent(slotProps.data.humidity.value) }} </template>
               <br />
@@ -35,7 +35,7 @@
       <div>
         <div class="p-grid p-ai-center">
           <div class="p-col-6 p-md-4 p-md-offset-4">
-            <img v-show="streamSuccess" style="width: 100%" @load="streamSuccess = true" :src="streamUrl" />
+            <!-- <img v-show="streamSuccess" style="width: 100%" @load="streamSuccess = true" :src="streamUrl" /> -->
             <!-- <img src="http://192.168.43.147:81/stream" /> -->
             <img v-show="!streamSuccess" style="width: 100%" :src="defaultPicture" />
           </div>
@@ -83,11 +83,11 @@ export default {
       sensorDetail: {
         situation: null,
         light: { value: null },
-        humidity: { value: null },
+        humidity: { value: 1000 },
         time: null,
       },
       error: '',
-      streamUrl: 'http://192.168.43.147:81/stream',
+      streamUrl: 'http://192.168.1.94:81/stream',
       defaultPicture: require('../assets/camera.png'),
       streamSuccess: false,
     };
@@ -134,8 +134,8 @@ export default {
     ...mapMutations(['pushImage']),
     //截圖
     capture() {
-      const url = `http://192.168.1.10/capture?${new Date() * 1}`;
-      // const url = `${this.defaultPicture}?${new Date() * 1}`;
+      // const url = `http://192.168.1.94/capture?${new Date() * 1}`;
+      const url = `${this.defaultPicture}?${new Date() * 1}`;
       this.pushImage({ url });
     },
     //接收broker傳送的資料(讀取感測器數據)
@@ -152,11 +152,12 @@ export default {
           alert = '正常';
         }
         this.sensorDetail.situation = alert;
+
       }
 
       if (t == this.topicHumidity) {
         this.sensorDetail.humidity = {
-          value: Number(message.toString()),
+          value: 1023 - Number(message.toString()),
         };
         //this.sensorDetail.humidity = message.toString();
       }
