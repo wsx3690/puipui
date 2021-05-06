@@ -83,7 +83,7 @@ export default {
       sensorDetail: {
         situation: null,
         light: { value: null },
-        humidity: { value: 1000 },
+        humidity: { value: null },
         time: null,
       },
       error: '',
