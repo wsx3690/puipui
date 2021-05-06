@@ -74,7 +74,7 @@ export default {
 <style scoped lang="scss">
 .joystick {
   width: 100%;
-  background-color: #FEEDE5;
+  background-color: #feede5;
   position: relative;
   height: 100%;
   margin-top: 10px;

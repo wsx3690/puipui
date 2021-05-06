@@ -5,14 +5,14 @@ export default createStore({
     captureImages: [],
   },
   mutations: {
-    pushImage (state, payload) { 
-      state.captureImages.push(payload) 
-    } 
+    pushImage(state, payload) {
+      state.captureImages.push(payload);
+    },
   },
   actions: {},
   modules: {},
   getters: {
     // ...
-    captureImages : state => state.captureImages
-  }
+    captureImages: state => state.captureImages,
+  },
 });

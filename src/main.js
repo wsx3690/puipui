@@ -14,6 +14,8 @@ import Column from 'primevue/column';
 import Button from 'primevue/button';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import OverlayPanel from 'primevue/overlaypanel';
+import Dialog from 'primevue/dialog';
 
 const app = createApp(App).use(store).use(router);
 
@@ -23,5 +25,7 @@ app.component('Column', Column);
 app.component('Button', Button);
 app.component('Accordion', Accordion);
 app.component('AccordionTab', AccordionTab);
+app.component('OverlayPanel', OverlayPanel);
+app.component('Dialog', Dialog);
 
 app.mount('#app');

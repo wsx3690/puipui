@@ -2,22 +2,20 @@
   <div class="wrapper">
     <DataTable class="dashboard" :value="tableData" responsiveLayout="hidden">
       <template #header>
-        <div class="table-header">
-          現在時間 :{{ sensorDetail.time }}
-        </div>
+        <div class="table-header">現在時間 :{{ sensorDetail.time }}</div>
       </template>
       <Column field="situation" header="車子狀況"></Column>
       <Column field="light" header="光照強度">
         <template #body="slotProps">
           <Gauge style="tranform: scale(0.5)" :value="slotProps.data.light.value" :min="0" :max="1023"> </Gauge>
-          <i style="width:30px" class="pi pi-sun"></i>
+          <i style="width: 30px" class="pi pi-sun"></i>
           {{ slotProps.data.light.text }}
         </template>
       </Column>
       <Column field="humidity" header="土壤濕度">
         <template #body="slotProps">
           <Gauge style="tranform: scale(0.5)" :value="slotProps.data.humidity.value" :min="0" :max="100"> </Gauge>
-          <img style="width:30px" src="../assets/humidity.svg" />
+          <img style="width: 30px" src="../assets/humidity.svg" />
           {{ slotProps.data.humidity.text }}
         </template>
       </Column>
@@ -32,11 +30,13 @@
       <div>
         <div class="p-grid p-ai-center">
           <div class="p-col-6 p-md-4 p-md-offset-4">
-            <img v-show="streamSuccess" style="width:100%;" @load="streamSuccess=true;" :src="streamUrl" />
-            <img v-show="!streamSuccess" style="width:100%;" :src="defaultPicture" />
+            <img v-show="streamSuccess" style="width: 100%" @load="streamSuccess = true" :src="streamUrl" />
+            <img v-show="!streamSuccess" style="width: 100%" :src="defaultPicture" />
           </div>
           <div class="p-col-6 p-md-12">
-            <Button style="background: #E5CECF" class="p-button-raised p-button-secondary p-button-lg" @click="capture()">拍照 &nbsp; <i class="pi pi-camera"></i></Button>
+            <Button style="background: #e5cecf" class="p-button-raised p-button-secondary p-button-lg" @click="capture()"
+              >拍照 &nbsp; <i class="pi pi-camera"></i
+            ></Button>
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default {
     },
   },
   //data內為定義變數的地方(但定義之變數僅限用於grid.vue檔內)
-  data(){
+  data() {
     return {
       client: null,
       sensorDetail: {
@@ -125,9 +125,9 @@ export default {
     ...mapMutations(['pushImage']),
     //截圖
     capture() {
-      const url = `http://172.20.10.2/capture?${new Date() * 1}`;
-      this.pushImage(url);
-      
+      // const url = `http://172.20.10.2/capture?${new Date() * 1}`;
+      const url = `${this.defaultPicture}?${new Date() * 1}`;
+      this.pushImage({ url });
     },
     //接收broker傳送的資料(讀取感測器數據)
     onMessaged(t, message) {
@@ -159,10 +159,10 @@ export default {
         } else if (j < 50 && j >= 0) {
           j = '土壤濕潤';
         }
-        this.sensorDetail.humidity = { 
-          text: (100 - h) + '%;' + '狀態:' + j,
-          value: Number(100-h),
-          };
+        this.sensorDetail.humidity = {
+          text: 100 - h + '%;' + '狀態:' + j,
+          value: Number(100 - h),
+        };
         //this.sensorDetail.humidity = message.toString();
       }
 
@@ -231,7 +231,6 @@ export default {
         console.log('Subscribe to topics res', res);
       });
     },
-
   },
 };
 </script>
@@ -267,14 +266,14 @@ export default {
     font-size: 16px;
   }
 }
-.p-datatable .p-datatable-header{
-  background: #F1D7D5 !important;
+.p-datatable .p-datatable-header {
+  background: #f1d7d5 !important;
 }
 .p-datatable .p-datatable-thead > tr > th {
-  background: #FEEDE5 !important;
+  background: #feede5 !important;
 }
 .p-datatable .p-datatable-tbody > tr > td {
-  background: #FAF2F0 !important;
+  background: #faf2f0 !important;
 }
 .gauge {
   transform: scale(0.35);
