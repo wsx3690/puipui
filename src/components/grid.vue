@@ -17,7 +17,7 @@
       <Column field="humidity" header="土壤濕度">
         <template #body="slotProps">
           <Gauge style="tranform: scale(0.5)" :value="slotProps.data.humidity.value" :min="0" :max="100"> </Gauge>
-          <img style="width:30px" src="../assets/humidity.svg" />
+          <img style="width:20px" src="../assets/humidity.svg" />
           {{ slotProps.data.humidity.text }}
         </template>
       </Column>
@@ -72,13 +72,13 @@ export default {
       client: null,
       sensorDetail: {
         situation: null,
-        light: { text: '654', value: 654 },
-        humidity: { text: '70%', value: 70 },
+        light: { text: 'N/A', value: 0 },
+        humidity: { text: 'N/A', value: 0 },
         time: null,
       },
       error: '',
       streamUrl: 'http://172.20.10.2:81/stream',
-      defaultPicture: require('../assets/xp.jpg'),
+      defaultPicture: require('../assets/camera.png'),
       streamSuccess: false,
     };
   },
@@ -150,14 +150,15 @@ export default {
         h = message.toString();
         parseInt(j, h); //轉成整數型態
         j = (j / 1023) * 100;
+        j = 100-j;
         h = Math.round(j);
         parseInt(h);
         if (j > 75 && j <= 100) {
-          j = '土壤乾燥';
+          j = '土壤濕潤';
         } else if (j > 50) {
           j = '土壤濕度正常';
         } else if (j < 50 && j >= 0) {
-          j = '土壤濕潤';
+          j = '土壤乾燥';
         }
         this.sensorDetail.humidity = { 
           text: (100 - h) + '%;' + '狀態:' + j,
@@ -275,6 +276,9 @@ export default {
 }
 .p-datatable .p-datatable-tbody > tr > td {
   background: #FAF2F0 !important;
+}
+.p-accordion .p-accordion-tab:last-child .p-accordion-content{
+  background: #FFE7E3 !important;
 }
 .gauge {
   transform: scale(0.35);

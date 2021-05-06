@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="joystick"></div>
+    <div class="joystick">Control Area</div>
   </div>
 </template>
 
@@ -75,9 +75,19 @@ export default {
 .joystick {
   width: 100%;
   background-color: #FEEDE5;
+  color: #d6d6d6;
+  font-size: 80px;
+  text-align: center;
+  height: 500px;
+  line-height: 500px;
   position: relative;
-  height: 100%;
+  // height: 100%;
   margin-top: 10px;
+  @media screen and(max-width:800px) {
+    font-size: 40px;
+    height: 30vh;
+    line-height: 30vh;
+  }
   // box-shadow: 0 0 0 2px black inset;
 }
 .wrapper {

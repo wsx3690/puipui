@@ -6,6 +6,7 @@
           <div class="p-grid">
             <div class="p-col-6 p-md-3" v-for="(url, i) in captureImages" :key="i">
               <img :src="url" />
+              <img src="../assets/camera.png" />
             </div>
           </div>
         </div>
