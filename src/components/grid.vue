@@ -31,6 +31,7 @@
         <div class="p-grid p-ai-center">
           <div class="p-col-6 p-md-4 p-md-offset-4">
             <img v-show="streamSuccess" style="width: 100%" @load="streamSuccess = true" :src="streamUrl" />
+            <!-- <img src="http://192.168.43.147:81/stream" /> -->
             <img v-show="!streamSuccess" style="width: 100%" :src="defaultPicture" />
           </div>
           <div class="p-col-6 p-md-12">
@@ -53,6 +54,10 @@ export default {
   name: 'sensor',
   components: { Gauge },
   props: {
+    topic: {
+      type: String,
+      default: () => 'jsd/web', //預設topic名稱
+    },
     topicUltrasound: {
       type: String,
       default: () => 'distance',
@@ -77,7 +82,7 @@ export default {
         time: null,
       },
       error: '',
-      streamUrl: 'http://172.20.10.2:81/stream',
+      streamUrl: 'http://192.168.43.147:81/stream',
       defaultPicture: require('../assets/camera.png'),
       streamSuccess: false,
     };
@@ -125,7 +130,7 @@ export default {
     ...mapMutations(['pushImage']),
     //截圖
     capture() {
-      const url = `http://172.20.10.2/capture?${new Date() * 1}`;
+      const url = `http://192.168.1.10/capture?${new Date() * 1}`;
       // const url = `${this.defaultPicture}?${new Date() * 1}`;
       this.pushImage({ url });
     },
@@ -138,6 +143,7 @@ export default {
         alert = message.toString();
         if (alert == 'D') {
           alert = '即將撞到障礙物';
+          this.client.publish(this.topic, 'end');
         } else if (alert == 'N') {
           alert = '正常';
         }
