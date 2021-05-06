@@ -15,18 +15,15 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'screenshot',
-  components: {  },
-  props: {
-  },
+  components: {},
+  props: {},
   //data內為定義變數的地方(但定義之變數僅限用於grid.vue檔內)
   data() {
-    return {
-    };
+    return {};
   },
 
   //將數據帶入表格
@@ -35,10 +32,8 @@ export default {
   },
 
   //Lifecycle of vue
-  mounted() {
-  },
-  methods: {
-  },
+  mounted() {},
+  methods: {},
 };
 </script>
 
@@ -46,9 +41,9 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   position: relative;
-
 }
-.p-accordion .p-accordion-header .p-accordion-header-link{
-  background: #F1D7D5 !important;
+/* scoped scss 在動態產生沒有 data-v 指定的元素上要設定css 要前面加 /deep/ */
+/deep/ .p-accordion-header-link {
+  background: #f1d7d5 !important;
 }
 </style>
