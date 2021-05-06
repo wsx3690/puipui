@@ -3,6 +3,12 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     captureImages: [],
+    topics: {
+      ultrasound: 'distance',
+      light: 'sensor_Light',
+      humidity: 'sensor_humidity',
+      joystick: 'jsd/web',
+    },
   },
   mutations: {
     pushImage(state, payload) {
@@ -14,5 +20,6 @@ export default createStore({
   getters: {
     // ...
     captureImages: state => state.captureImages,
+    topics: state => state.topics,
   },
 });

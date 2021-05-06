@@ -1,32 +1,37 @@
 <template>
   <div class="wrapper">
-    <DataTable style="text-align: center" class="dashboard" :value="tableData" responsiveLayout="hidden">
-      <template #header>
-        <div class="table-header">現在時間 :{{ sensorDetail.time }}</div>
-      </template>
-      <Column field="situation" header="車子狀況"></Column>
-      <Column field="light" header="光照強度">
-        <template #body="slotProps">
-          <Gauge style="tranform: scale(0.5)" :value="slotProps.data.light.value" :min="0" :max="1023"> </Gauge>
-          <i style="width: 30px" class="pi pi-sun"></i>
-          {{ slotProps.data.light.text }}
-        </template>
-      </Column>
-      <Column field="humidity" header="土壤濕度">
-        <template #body="slotProps">
-          <Gauge style="tranform: scale(0.5)" :value="slotProps.data.humidity.value" :min="0" :max="100"> </Gauge>
-          <img style="width:20px" src="../assets/humidity.svg" />
-          {{ slotProps.data.humidity.text }}
-        </template>
-      </Column>
-      <!-- <template #footer>
+    <div class="p-grid">
+      <div class="p-col-12 p-p-0">
+        <DataTable style="text-align: center" class="dashboard" :value="tableData" responsiveLayout="hidden">
+          <template #header>
+            <div class="table-header">現在時間 :{{ sensorDetail.time }}</div>
+          </template>
+          <Column field="situation" header="車子狀況"></Column>
+          <Column field="light" header="光照強度">
+            <template #body="slotProps">
+              <Gauge v-if="slotProps.data.light.value !== null" :value="slotProps.data.light.value" :min="0" :max="1023"> </Gauge>
+              <i style="font-size: 20px" class="pi pi-sun"></i>
+              {{ slotProps.data.humidity.value }} <br />
+              {{ lightDescription(slotProps.data.humidity.value) }}
+            </template>
+          </Column>
+          <Column field="humidity" header="土壤濕度">
+            <template #body="slotProps">
+              <Gauge v-if="slotProps.data.light.value !== null" :value="slotProps.data.humidity.value" :min="0" :max="100"> </Gauge>
+              <img style="width: 20px" src="../assets/humidity.svg" />
+              <template v-if="slotProps.data.humidity.value !== null">{{ percent(slotProps.data.humidity.value) }} </template>
+              <br />
+              {{ humidityDescription(slotProps.data.humidity.value) }}
+            </template>
+          </Column>
+          <!-- <template #footer>
         {{ tableData }}
       </template> -->
-    </DataTable>
-    <br />
-    <br />
+        </DataTable>
+      </div>
+    </div>
 
-    <div class="camera">
+    <div class="camera p-py-2">
       <div>
         <div class="p-grid p-ai-center">
           <div class="p-col-6 p-md-4 p-md-offset-4">
@@ -77,8 +82,8 @@ export default {
       client: null,
       sensorDetail: {
         situation: null,
-        light: { text: 'N/A', value: 0 },
-        humidity: { text: 'N/A', value: 0 },
+        light: { value: null },
+        humidity: { value: null },
         time: null,
       },
       error: '',
@@ -92,7 +97,6 @@ export default {
   computed: {
     tableData() {
       //定義光敏數據描述 小於 500 :太暗， 500 以上:正常
-      // const lightDescription = this.sensorDetail.light < 500 ? '太暗':'正常';
       return [
         {
           situation: this.sensorDetail.situation,
@@ -151,47 +155,16 @@ export default {
       }
 
       if (t == this.topicHumidity) {
-        var j, h;
-        j = message.toString();
-        h = message.toString();
-        parseInt(j, h); //轉成整數型態
-        j = (j / 1023) * 100;
-        j = 100-j;
-        h = Math.round(j);
-        parseInt(h);
-        if (j > 75 && j <= 100) {
-          j = '土壤濕潤';
-        } else if (j > 50) {
-          j = '土壤濕度正常';
-        } else if (j < 50 && j >= 0) {
-          j = '土壤乾燥';
-        }
         this.sensorDetail.humidity = {
-          text: h + '%;' + '狀態:' + j,
-          value: Number(h),
+          value: Number(message.toString()),
         };
         //this.sensorDetail.humidity = message.toString();
       }
 
       if (t == this.topicLight) {
-        var i, k;
-        i = message.toString();
-        k = message.toString();
-        parseInt(i);
-        //i = i/1023*100;
-        if (i > 500 && i <= 1023) {
-          i = '光照充足';
-        } else if (i < 500 && i > 200) {
-          i = '光照正常';
-        } else if (i < 200 && i >= 0) {
-          i = '光照缺乏';
-        }
-
         this.sensorDetail.light = {
-          text: k + ';' + '狀態:' + i,
-          value: Number(k),
+          value: Number(message.toString()),
         };
-        //this.sensorDetail.light = message.toString();
       }
     },
 
@@ -238,6 +211,35 @@ export default {
         console.log('Subscribe to topics res', res);
       });
     },
+
+    percent(val) {
+      return `${Math.round((val / 1023) * 100)}%`;
+    },
+    lightDescription(val) {
+      if (val === null) {
+        return 'N/A';
+      }
+      if (val > 500 && val <= 1023) {
+        return '光照充足';
+      } else if (val < 500 && val > 200) {
+        return '光照正常';
+      } else if (val < 200 && val >= 0) {
+        return '光照缺乏';
+      }
+    },
+    humidityDescription(val) {
+      if (val === null) {
+        return 'N/A';
+      }
+      const per = Math.round((val / 1023) * 100);
+      if (per > 75 && per <= 100) {
+        return '土壤濕潤';
+      } else if (per > 50) {
+        return '土壤濕度正常';
+      } else if (per < 50 && per >= 0) {
+        return '土壤乾燥';
+      }
+    },
   },
 };
 </script>
@@ -246,7 +248,7 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   position: relative;
-  
+
   @media screen and(max-width:800px) {
     // height: 60vh;
   }
@@ -284,8 +286,8 @@ export default {
   background: #faf2f0 !important;
   text-align: center !important;
 }
-.p-accordion .p-accordion-tab:last-child .p-accordion-content{
-  background: #FFE7E3 !important;
+.p-accordion .p-accordion-tab:last-child .p-accordion-content {
+  background: #ffe7e3 !important;
 }
 
 .gauge {
